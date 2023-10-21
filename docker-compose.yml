@@ -1,0 +1,14 @@
+version: '3'
+services:
+  gotrat-postgre:
+    image: postgres:latest
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: sutun
+      POSTGRES_PASSWORD: sutunsecret
+      POSTGRES_DB: gotranj
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+volumes:
+  postgres_data:
