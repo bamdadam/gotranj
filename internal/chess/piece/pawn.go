@@ -6,6 +6,7 @@ type Pawn struct {
 	moveSet  [][2]int
 	hasMoved bool
 	isBlack  bool
+	x, y     int
 }
 
 func (p *Pawn) GetMoves(x, y int, canMove func(x, y int, isBlack bool) bool) []move.Move {
@@ -20,13 +21,25 @@ func (p *Pawn) GetMoves(x, y int, canMove func(x, y int, isBlack bool) bool) []m
 }
 
 func (p *Pawn) String() string {
-	if p.isBlack {
+	if !p.isBlack {
 		return "♟"
 	}
 	return "♙"
 }
 
-func newPawn(isBlack bool) *Pawn {
+func (p *Pawn) IsBlack() bool {
+	return p.isBlack
+}
+
+func (p *Pawn) GetX() int {
+	return p.x
+}
+
+func (p *Pawn) GetY() int {
+	return p.y
+}
+
+func newPawn(isBlack bool, x, y int) *Pawn {
 	ms := [][2]int{}
 	if isBlack {
 		ms = [][2]int{
@@ -41,5 +54,7 @@ func newPawn(isBlack bool) *Pawn {
 		moveSet:  ms,
 		hasMoved: false,
 		isBlack:  isBlack,
+		x:        x,
+		y:        y,
 	}
 }

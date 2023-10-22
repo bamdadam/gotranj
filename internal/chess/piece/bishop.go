@@ -5,6 +5,7 @@ import "github.com/bamdadam/gotranj/internal/chess/move"
 type Bishop struct {
 	moveSet [][2]int
 	isBlack bool
+	x, y    int
 }
 
 func (b *Bishop) GetMoves(x, y int, canMove func(x, y int, isBlack bool) bool) []move.Move {
@@ -19,13 +20,25 @@ func (b *Bishop) GetMoves(x, y int, canMove func(x, y int, isBlack bool) bool) [
 }
 
 func (b *Bishop) String() string {
-	if b.isBlack {
+	if !b.isBlack {
 		return "♝"
 	}
 	return "♗"
 }
 
-func newBishop(isBlack bool) *Bishop {
+func (b *Bishop) IsBlack() bool {
+	return b.isBlack
+}
+
+func (b *Bishop) GetX() int {
+	return b.x
+}
+
+func (b *Bishop) GetY() int {
+	return b.y
+}
+
+func newBishop(isBlack bool, x, y int) *Bishop {
 	ms := [][2]int{}
 	for i := 1; i < 8; i++ {
 		ms = append(ms, [2]int{i, i})
@@ -36,5 +49,7 @@ func newBishop(isBlack bool) *Bishop {
 	return &Bishop{
 		moveSet: ms,
 		isBlack: isBlack,
+		x:       x,
+		y:       y,
 	}
 }

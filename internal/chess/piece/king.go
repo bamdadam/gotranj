@@ -5,6 +5,7 @@ import "github.com/bamdadam/gotranj/internal/chess/move"
 type King struct {
 	moveSet [][2]int
 	isBlack bool
+	x, y    int
 }
 
 func (k *King) GetMoves(x, y int, canMove func(x, y int, isBlack bool) bool) []move.Move {
@@ -19,13 +20,25 @@ func (k *King) GetMoves(x, y int, canMove func(x, y int, isBlack bool) bool) []m
 }
 
 func (k *King) String() string {
-	if k.isBlack {
+	if !k.isBlack {
 		return "♚"
 	}
 	return "♔"
 }
 
-func newKing(isBlack bool) *King {
+func (k *King) IsBlack() bool {
+	return k.isBlack
+}
+
+func (k *King) GetX() int {
+	return k.x
+}
+
+func (k *King) GetY() int {
+	return k.y
+}
+
+func newKing(isBlack bool, x, y int) *King {
 	ms := [][2]int{}
 	// generate all possible moves for a king
 	for i := -1; i < 2; i++ {
@@ -39,5 +52,7 @@ func newKing(isBlack bool) *King {
 	return &King{
 		moveSet: ms,
 		isBlack: isBlack,
+		x:       x,
+		y:       y,
 	}
 }

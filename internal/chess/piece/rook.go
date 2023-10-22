@@ -7,6 +7,7 @@ import (
 type Rook struct {
 	moveSet [][2]int
 	isBlack bool
+	x, y    int
 }
 
 func (r *Rook) GetMoves(x, y int, canMove func(x, y int, isBlack bool) bool) []move.Move {
@@ -21,13 +22,25 @@ func (r *Rook) GetMoves(x, y int, canMove func(x, y int, isBlack bool) bool) []m
 }
 
 func (r *Rook) String() string {
-	if r.isBlack {
+	if !r.isBlack {
 		return "♜"
 	}
 	return "♖"
 }
 
-func newRook(isBlack bool) *Rook {
+func (r *Rook) IsBlack() bool {
+	return r.isBlack
+}
+
+func (r *Rook) GetX() int {
+	return r.x
+}
+
+func (r *Rook) GetY() int {
+	return r.y
+}
+
+func newRook(isBlack bool, x, y int) *Rook {
 	ms := [][2]int{}
 	for i := 1; i < 8; i++ {
 		ms = append(ms, [2]int{i, 0})
@@ -38,5 +51,7 @@ func newRook(isBlack bool) *Rook {
 	return &Rook{
 		moveSet: ms,
 		isBlack: isBlack,
+		x:       x,
+		y:       y,
 	}
 }

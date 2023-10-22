@@ -5,6 +5,7 @@ import "github.com/bamdadam/gotranj/internal/chess/move"
 type Knight struct {
 	moveSet [][2]int
 	isBlack bool
+	x, y    int
 }
 
 func (k *Knight) GetMoves(x, y int, canMove func(x, y int, isBlack bool) bool) []move.Move {
@@ -19,13 +20,25 @@ func (k *Knight) GetMoves(x, y int, canMove func(x, y int, isBlack bool) bool) [
 }
 
 func (k *Knight) String() string {
-	if k.isBlack {
+	if !k.isBlack {
 		return "♞"
 	}
 	return "♘"
 }
 
-func newKnight(isBlack bool) *Knight {
+func (k *Knight) IsBlack() bool {
+	return k.isBlack
+}
+
+func (k *Knight) GetX() int {
+	return k.x
+}
+
+func (k *Knight) GetY() int {
+	return k.y
+}
+
+func newKnight(isBlack bool, x, y int) *Knight {
 	ms := [][2]int{}
 	for i := 1; i < 3; i++ {
 		for j := 1; j < 3; j++ {
@@ -40,5 +53,7 @@ func newKnight(isBlack bool) *Knight {
 	return &Knight{
 		moveSet: ms,
 		isBlack: isBlack,
+		x:       x,
+		y:       y,
 	}
 }
