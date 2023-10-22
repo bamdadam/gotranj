@@ -3,17 +3,26 @@ package piece
 import "github.com/bamdadam/gotranj/internal/chess/move"
 
 type Queen struct {
-	moveSet [][2]int
+	moveSet map[[2]int]int
 	isBlack bool
 	x, y    int
 }
 
-func (q *Queen) GetMoves(x, y int, canMove func(x, y int, isBlack bool) bool) []move.Move {
+func (q *Queen) GetMoves(x, y int, canMove func(x, y int, isBlack bool) int) []move.Move {
 	res := []move.Move{}
-	for _, v := range q.moveSet {
-		if canMove(x+v[0], y+v[1], q.isBlack) {
-			mv := move.NewMove(x+v[0], y+v[1])
-			res = append(res, *mv)
+	for mv, iter := range q.moveSet {
+		for i := 1; i < iter; i++ {
+			mvRes := canMove(x+mv[0]*i, y+mv[1]*i, q.isBlack)
+			if mvRes == 0 {
+				mv := move.NewMove(x+mv[0]*i, y+mv[1]*i)
+				res = append(res, *mv)
+			} else if mvRes == 1 {
+				mv := move.NewMove(x+mv[0]*i, y+mv[1]*i)
+				res = append(res, *mv)
+				break
+			} else {
+				break
+			}
 		}
 	}
 	return res
@@ -39,17 +48,16 @@ func (q *Queen) GetY() int {
 }
 
 func newQueen(isBlack bool, x, y int) *Queen {
-	ms := [][2]int{}
-	for i := 1; i < 8; i++ {
-		ms = append(ms, [2]int{i, i})
-		ms = append(ms, [2]int{-i, -i})
-		ms = append(ms, [2]int{-i, i})
-		ms = append(ms, [2]int{i, -i})
-		ms = append(ms, [2]int{i, 0})
-		ms = append(ms, [2]int{-i, 0})
-		ms = append(ms, [2]int{0, i})
-		ms = append(ms, [2]int{0, -i})
-	}
+	ms := map[[2]int]int{}
+	ms[[2]int{1, 0}] = 8
+	ms[[2]int{-1, 0}] = 8
+	ms[[2]int{0, 1}] = 8
+	ms[[2]int{0, -1}] = 8
+	ms[[2]int{1, -1}] = 8
+	ms[[2]int{-1, -1}] = 8
+	ms[[2]int{1, 1}] = 8
+	ms[[2]int{-1, 1}] = 8
+
 	return &Queen{
 		moveSet: ms,
 		isBlack: isBlack,

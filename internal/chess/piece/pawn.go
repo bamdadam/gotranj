@@ -9,10 +9,10 @@ type Pawn struct {
 	x, y     int
 }
 
-func (p *Pawn) GetMoves(x, y int, canMove func(x, y int, isBlack bool) bool) []move.Move {
+func (p *Pawn) GetMoves(x, y int, canMove func(x, y int, isBlack bool) int) []move.Move {
 	res := []move.Move{}
 	for _, v := range p.moveSet {
-		if canMove(x+v[0], y+v[1], p.isBlack) {
+		if canMove(x+v[0], y+v[1], p.isBlack) == 0 || canMove(x+v[0], y+v[1], p.isBlack) == 1 {
 			mv := move.NewMove(x+v[0], y+v[1])
 			res = append(res, *mv)
 		}

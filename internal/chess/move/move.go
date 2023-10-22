@@ -1,13 +1,13 @@
 package move
 
 type Move struct {
-	x, y int
+	X, Y int
 }
 
 func NewMove(x, y int) *Move {
 	return &Move{
-		x: x,
-		y: y,
+		X: x,
+		Y: y,
 	}
 }
 

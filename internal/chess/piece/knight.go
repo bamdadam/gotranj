@@ -8,10 +8,10 @@ type Knight struct {
 	x, y    int
 }
 
-func (k *Knight) GetMoves(x, y int, canMove func(x, y int, isBlack bool) bool) []move.Move {
+func (k *Knight) GetMoves(x, y int, canMove func(x, y int, isBlack bool) int) []move.Move {
 	res := []move.Move{}
 	for _, v := range k.moveSet {
-		if canMove(x+v[0], y+v[1], k.isBlack) {
+		if canMove(x+v[0], y+v[1], k.isBlack) == 0 || canMove(x+v[0], y+v[1], k.isBlack) == 1 {
 			mv := move.NewMove(x+v[0], y+v[1])
 			res = append(res, *mv)
 		}
